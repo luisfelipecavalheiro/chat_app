@@ -1,4 +1,3 @@
-
 <template>
   <div class="wrapper fadeInDown">
   <div id="formContent">
@@ -7,67 +6,60 @@
       <img src="https://www.dds.com.br/blog/wp-content/uploads/2014/02/atendimento-via-chat-online.png" id="icon" alt="User Icon" />
     </div>
     <!-- Tabs Titles -->
-    <div v-if="this.users.exists === true">
+    <div>
       <b-alert show variant="info" dismissible>
-        {{ users }} 
+        {{ this.users.msg }} 
       </b-alert>
-    </div>
-    <div v-if="this.users.exists === false">
-      <b-alert show variant="danger" dismissible>
-        {{ users }}
-      </b-alert>
-    </div>
-    <form v-if="!this.users.exists === true">    
-      <div>
-        <label>Email address:  </label>
-      </div>
-      <div>
-        <input type="text" placeholder="Digite o email cadastrado" v-model="formEmail">
-      </div>
-    </form>
-    <b-button variant="success" v-if="!this.users.exists === true" v-on:click="getUserData">Login</b-button>
-    <b-button variant="info" v-if="!this.users.exists === true">
-    <router-link to ="/Cadastra">Cadastre-se </router-link>
-    </b-button>
-    <div v-if="this.users.exists === true">
-      <chat></chat>
-    </div>
-  </div>
+    </div>    
+    <div class="container">
+<div>
+<label>Nome:  </label>
+</div>
+<div>
+<input type="text" placeholder="Digite o nome" v-model="formRegisterName">
+</div>
+<div>
+<label>Email address:  </label>
+</div>
+<div>
+<input type="text" placeholder="Digite o email" v-model="formRegisterEmail">
+</div>
+<div>
+<b-button variant="success" v-if="!this.users.exists === true" v-on:click="registerUser">Cadastre-se</b-button>
+<b-button variant="info">
+    <router-link to ="/">Voltar </router-link>
+    </b-button>           
+</div>
+</div>
 
- 
+  </div>
 </div>
 </template>
 <script>
 
 import { mapState } from 'vuex'
-import Chat from './Chat.vue';
-
 export default {
-  name: 'Index',
-  components: {    
-    Chat
-  },
+  name: 'Cadastra',
   data() {
     return { 
-      formEmail: ''
+      formRegisterEmail: '',
+      formRegisterName: ''
     };
   },
   methods: {
-    // Valida cliente - Vuex: dispatch action mutation
-    getUserData() {
-      this.$store.dispatch('getUserData', this.formEmail)
-    },
     // Registrar cliente - Vuex: dispatch action mutation
     registerUser() {
-      let payload = {
-        name: this.formRegisterName,
-        email: this.formRegisterEmail    
-      }
-      this.$store.dispatch('registerUser', payload)
+        let payload = {
+            name: this.formRegisterName,
+            email: this.formRegisterEmail    
+        }
+        this.$store.dispatch('registerUser', payload)
     }
   },
   // Mapeia Store Base State Vuex
-  computed: mapState(['users'])
+  computed: mapState([
+    'users'
+  ])
 }
 
 </script>
